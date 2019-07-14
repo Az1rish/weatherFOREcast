@@ -2,7 +2,7 @@
 
 const placesURL = 'https://nominatim.openstreetmap.org/search?';
 
-// const weatherURL = 'https://api.aerisapi.com/forecasts/';
+const weatherURL = 'https://api.aerisapi.com/forecasts/';
 
 /*aeris = {
     Access_ID: uMkXGJ4g2DJPLwihkeIr1,
@@ -53,9 +53,13 @@ function displayCourses(responseJson) {
     $('#js-form').addClass('hidden');
     };
    
-   $('#results-courses').removeClass('hidden');
-   handleCourseSelect();
+    $('#results-courses').removeClass('hidden');
 
+   
+    handleCourseSelect();
+
+
+    
    return "https://api.aerisapi.com/forecasts/phoenix,az?client_id=uMkXGJ4g2DJPLwihkeIr1&client_secret=S09d9zwEMNCOkIrptHixAvjwedBeZxKD5pRumKyG";
 };
 
@@ -66,9 +70,10 @@ function handleCourseSelect() {
         console.log(chosen);
         
         let course = chosen.val();
-        console.log(course);
-        console.log(chosen.dataset.lon);
         
+        console.log(course);
+        console.log(chosen[0].dataset.lon);
+
         if (course === 'none') {
             tryAgain();
         } else {
@@ -85,8 +90,30 @@ function handleCourseSelect() {
             <input type="button" role="button" class="search-time" value="Enter tee time" />`
         );
         }
+        const longitude = chosen[0].dataset.lon;
+        const latitude = chosen[0].dataset.lat;
+        // handleTimeSubmit();
+        
+        
     })
 }
+
+/*function handleTimeSubmit(longitude, latitude) {
+    $('#courses-list').on('click','.search-time',e => {
+        const date = $("#js-date").val();
+        const time = $("#js-time").val();
+    });
+
+    const dataObj = {
+        latitude: latitude,
+        longitude: longitude,
+        date: date,
+        time: time
+    };
+    console.log(dataObj);
+    console.log("Time submitted");
+    return dataObj; 
+}*/
 
 // make http requests to find weather for location and time
 function findWeather(query, time) {
@@ -108,7 +135,7 @@ function findWeather(query, time) {
         // display one that is chosen or return to search if none of the above
         .then(data => {
             console.log(data);
-
+            
 
             return fetch(data)
         })
