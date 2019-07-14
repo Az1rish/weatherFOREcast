@@ -2,19 +2,30 @@
 
 const placesURL = 'https://nominatim.openstreetmap.org/search?';
 
-// function to format query string
+// const weatherURL = 'https://api.aerisapi.com/forecasts/';
+
+/*aeris = {
+    Access_ID: uMkXGJ4g2DJPLwihkeIr1,
+    Secret_Key: S09d9zwEMNCOkIrptHixAvjwedBeZxKD5pRumKyG
+}*/
+
+// format query string
 function formatQueryParams(params) {
     const queryItems = Object.keys(params)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
     return queryItems.join('&');
 };
 
+// display if no results or if none of the above is selected
 function tryAgain() {
-    $('#results-courses').append(
+    $('#courses-list').empty();
+    $('#courses-list').append(
         `<h3>Sorry we couldn't find a course from that search, please try again (maybe add more search values)</h3>`
     );
+    $('#js-form').removeClass('hidden');
 }
 
+// what to do with json from places api request to display search results page
 function displayCourses(responseJson) {
    console.log(responseJson);
    $('#courses-list').empty();
@@ -44,8 +55,11 @@ function displayCourses(responseJson) {
    
    $('#results-courses').removeClass('hidden');
    handleCourseSelect();
+
+   return "https://api.aerisapi.com/forecasts/phoenix,az?client_id=uMkXGJ4g2DJPLwihkeIr1&client_secret=S09d9zwEMNCOkIrptHixAvjwedBeZxKD5pRumKyG";
 };
 
+// how to handle select button on search results page
 function handleCourseSelect() {
     $('#courses-list').on('click','.select',e => {
         let chosen = $('input:checked');
@@ -59,14 +73,15 @@ function handleCourseSelect() {
         $('#courses-list').append(
             `<h3>${course}</h3>`
         )
-        // need to change this to just append html and remove from index.html
+        
         $('#courses-list').append(
             `<label for="date" id="date-label">
-            On what day will you be playing?:</label>
+            At what date and time will you be playing?:</label>
             <input type="date" name="date" id="js-date" required />
-            <input type="button" role="button" class="search-time" value="Enter time">`
+            <input type="time" name="time" id="js-time" required />
+            <input type="button" role="button" class="search-time" value="Enter tee time" />`
         );
-    }
+        }
     })
 }
 
@@ -86,18 +101,27 @@ function findWeather(query, time) {
     fetch(locationURL)
         .then(response => response.json())
         // display all possible locations and let user choose one or none of the above
-        .then(responseJson => displayCourses(responseJson));
+        .then(responseJson => displayCourses(responseJson))
         // display one that is chosen or return to search if none of the above
+        .then(data => {
+            console.log(data);
 
+
+            return fetch(data)
+        })
+        .then(response => response.json()) 
+        .then(responseJson => console.log(responseJson))
         // pass long and lat and time info to weather api from chosen location to retrieve weather info for that location
         // display weather info to final results page
 } 
 
+// what to do with find the course button
 function watchForm() {
     console.log("How's it looking outside?");
 
     $('#js-form').on('click',".search", e => {
-        // e.preventDefault();
+        $('.explain').addClass('hidden');
+        
         const search = $('#js-search').val();
         const when = $('#js-date').val();
         findWeather(search, when);
