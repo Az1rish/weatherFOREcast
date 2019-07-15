@@ -51,7 +51,17 @@ function displayCourses(responseJson) {
     $('#results-courses').removeClass('hidden');
   
     handleCourseSelect();
+    handleTimeSubmit();
 
+     const dataObj = {
+        latitude: latitude,
+        longitude: longitude,
+        date: date,
+        time: time
+    };
+    console.log(dataObj);
+    
+    return dataObj; 
 };
 
 // how to handle select button on search results page
@@ -82,29 +92,21 @@ function handleCourseSelect() {
         );
         }
         const longitude = chosen[0].dataset.lon;
-        const latitude = chosen[0].dataset.lat;
-        // handleTimeSubmit();
-        
-        
+        const latitude = chosen[0].dataset.lat; 
+        console.log('Course selected');
     })
+   
 }
 
-/*function handleTimeSubmit(longitude, latitude) {
+// how to handle the enter tee time button
+function handleTimeSubmit() {
     $('#courses-list').on('click','.search-time',e => {
         const date = $("#js-date").val();
         const time = $("#js-time").val();
-    });
-
-    const dataObj = {
-        latitude: latitude,
-        longitude: longitude,
-        date: date,
-        time: time
-    };
-    console.log(dataObj);
-    console.log("Time submitted");
-    return dataObj; 
-}*/
+        console.log("Time submitted");
+    }); 
+    
+}
 
 // make http requests to find weather for location and time
 function findWeather(query) {
