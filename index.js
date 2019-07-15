@@ -4,11 +4,6 @@ const placesURL = 'https://nominatim.openstreetmap.org/search?';
 
 const weatherURL = 'https://api.aerisapi.com/forecasts/';
 
-/*aeris = {
-    Access_ID: uMkXGJ4g2DJPLwihkeIr1,
-    Secret_Key: S09d9zwEMNCOkIrptHixAvjwedBeZxKD5pRumKyG
-}*/
-
 // format query string
 function formatQueryParams(params) {
     const queryItems = Object.keys(params)
@@ -54,18 +49,14 @@ function displayCourses(responseJson) {
     };
    
     $('#results-courses').removeClass('hidden');
-
-   
+  
     handleCourseSelect();
 
-
-    
-   return "https://api.aerisapi.com/forecasts/phoenix,az?client_id=uMkXGJ4g2DJPLwihkeIr1&client_secret=S09d9zwEMNCOkIrptHixAvjwedBeZxKD5pRumKyG";
 };
 
 // how to handle select button on search results page
 function handleCourseSelect() {
-    $('#courses-list').on('click','.select',e => {
+    $('#courses-list').off().on('click','.select',e => {
         let chosen = $('input:checked');
         console.log(chosen);
         
@@ -116,7 +107,7 @@ function handleCourseSelect() {
 }*/
 
 // make http requests to find weather for location and time
-function findWeather(query, time) {
+function findWeather(query) {
     const paramsCourse = {
         q: query + ' golf',
         format: 'json',
@@ -133,14 +124,25 @@ function findWeather(query, time) {
         // display all possible locations and let user choose one or none of the above
         .then(responseJson => displayCourses(responseJson))
         // display one that is chosen or return to search if none of the above
-        .then(data => {
+       /* .then(data => {
             console.log(data);
-            
+            const paramsWeather = {
+                client_id: 'uMkXGJ4g2DJPLwihkeIr1',
+                client_secret: 'S09d9zwEMNCOkIrptHixAvjwedBeZxKD5pRumKyG',
+                from: *time entered*,
+                to: +6hr,
+                filter: 1hr
+            };
+        
+            const weatherQueryString = formatQueryParams(paramsWeather);
+            const forecastURL = weatherURL + *lon,lat* + weatherQueryString;
+        
+            console.log(forecastURL);
 
-            return fetch(data)
+            return fetch(forecastURL)
         })
         .then(response => response.json()) 
-        .then(responseJson => console.log(responseJson))
+        .then(responseJson => console.log(responseJson))*/
         // pass long and lat and time info to weather api from chosen location to retrieve weather info for that location
         // display weather info to final results page
 } 
@@ -153,9 +155,14 @@ function watchForm() {
         $('.explain').addClass('hidden');
         
         const search = $('#js-search').val();
-        const when = $('#js-date').val();
-        findWeather(search, when);
+        
+        findWeather(search);
     });
 }
 
 $(watchForm);
+
+/*aeris = {
+    Access_ID: uMkXGJ4g2DJPLwihkeIr1,
+    Secret_Key: S09d9zwEMNCOkIrptHixAvjwedBeZxKD5pRumKyG
+}*/
