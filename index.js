@@ -79,8 +79,8 @@ function handleCourseSelect() {
             <input type="button" role="button" class="search-time" value="Enter tee time" />`
         );
         }
-        lon = chosen[0].dataset.lon;
-        lat = chosen[0].dataset.lat; 
+        let lon = chosen[0].dataset.lon;
+        let lat = chosen[0].dataset.lat; 
         console.log('Course selected');
     })
 }
@@ -124,11 +124,11 @@ async function findWeather(query) {
         // display all possible locations and let user choose one or none of the above
         .then(responseJson => {
             displayCourses(responseJson);
-            if (responseJson.handleCourseSelect()) {
+            if (handleCourseSelect(responseJson)) {
                 location = location.push(lat).push(lon);
                 console.log(location);
             }
-            if (responseJson.handleTimeSubmit()) {
+            if (handleTimeSubmit(responseJson)) {
                 paramsWeather.from = date + ' ' + time;
                 paramsWeather.to = "+6hr";
                 console.log(paramsWeather);
