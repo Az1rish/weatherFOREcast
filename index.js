@@ -94,8 +94,62 @@ function handleTimeSubmit() {
     }); 
 }
 
-// make http requests to find weather for location and time
+function goFetch(uri, options) {
+    return fetch(uri, options)
+      .then(response => {
+          if (!response.ok) {
+              const err = new Error(response.statusText);
+              err.res = response;
+              throw err;
+          } else {
+              return response.json();
+          }
+      })
+      .catch(err => {
+          return err;
+      });
+};
+
 async function findWeather(query) {
+    let location = [];
+    const paramsCourse = {
+        q: query + ' golf',
+        format: 'json',
+        leisure: 'golf_course',
+        limit: 50
+    };
+    const paramsWeather = {
+        client_id: 'uMkXGJ4g2DJPLwihkeIr1',
+        client_secret: 'S09d9zwEMNCOkIrptHixAvjwedBeZxKD5pRumKyG',
+        filter: '1hr'
+    };
+
+    const courseQueryString = formatQueryParams(paramsCourse);
+    const locationURL = placesURL + courseQueryString;
+    const weatherQueryString = formatQueryParams(paramsWeather);
+    const forecastURL = weatherURL + location[0] + ',' + location[1] + '?' + weatherQueryString;
+    const someData = await goFetch(locationURL);
+    const moreData = await goFetch(forecastURL);
+    await displayCourses(someData);
+    if (handleCourseSelect(someData)) {
+        location = location.push(lat).push(lon);
+        console.log(location);
+    }
+    if (handleTimeSubmit(someData)) {
+        paramsWeather.from = date + ' ' + time;
+        paramsWeather.to = "+6hr";
+        console.log(paramsWeather);
+    }
+    const courseResponse = await handleCourseSelect(moreData)
+    
+    
+    const timeResponse = await handleTimeSubmit(moreData)
+    
+    
+} 
+
+// make http requests to find weather for location and time
+/*async function findWeather(query) {
     const paramsCourse = {
         q: query + ' golf',
         format: 'json',
@@ -134,16 +188,16 @@ async function findWeather(query) {
                 console.log(paramsWeather);
             }
         })
-        /*.then(() => )
+        .then(() => )
 
         // display one that is chosen or return to search if none of the above
          .then()
         .then()
         .then(response => response.json()) 
-        .then(responseJson => console.log(responseJson))*/
+        .then(responseJson => console.log(responseJson))
         // pass long and lat and time info to weather api from chosen location to retrieve weather info for that location
         // display weather info to final results page
-} 
+} */
 
 // what to do with find the course button
 function watchForm() {
@@ -159,4 +213,3 @@ function watchForm() {
 }
 
 $(watchForm);
-
