@@ -82,16 +82,27 @@ function handleCourseSelect() {
         let lon = chosen[0].dataset.lon;
         let lat = chosen[0].dataset.lat; 
         console.log('Course selected');
+
+        let location = [];
+        location = location.push(lat,lon);
+        
+        console.log(location);
     })
+    handleTimeSubmit(location);
 }
 
 // how to handle the enter tee time button
-function handleTimeSubmit() {
+function handleTimeSubmit(location) {
     $('#courses-list').on('click','.search-time',e => {
         const date = $("#js-date").val();
         const time = $("#js-time").val();
         console.log("Time submitted");
-    }); 
+    
+        let when = date + " " + time;
+        console.log(location);
+        console.log(when);
+        findWeather(location, when);
+});
 }
 
 function goFetch(uri, options) {
@@ -110,94 +121,49 @@ function goFetch(uri, options) {
       });
 };
 
-async function findWeather(query) {
-    let location = [];
+async function findCourse(query) {
+    
     const paramsCourse = {
         q: query + ' golf',
         format: 'json',
         leisure: 'golf_course',
         limit: 50
     };
-    const paramsWeather = {
-        client_id: 'uMkXGJ4g2DJPLwihkeIr1',
-        client_secret: 'S09d9zwEMNCOkIrptHixAvjwedBeZxKD5pRumKyG',
-        filter: '1hr'
-    };
+  
 
     const courseQueryString = formatQueryParams(paramsCourse);
     const locationURL = placesURL + courseQueryString;
-    const weatherQueryString = formatQueryParams(paramsWeather);
-    const forecastURL = weatherURL + location[0] + ',' + location[1] + '?' + weatherQueryString;
+    
     const someData = await goFetch(locationURL);
-    const moreData = await goFetch(forecastURL);
+    // const moreData = await goFetch(forecastURL);
     await displayCourses(someData);
-    if (handleCourseSelect(someData)) {
-        location = location.push(lat).push(lon);
-        console.log(location);
-    }
-    if (handleTimeSubmit(someData)) {
-        paramsWeather.from = date + ' ' + time;
-        paramsWeather.to = "+6hr";
-        console.log(paramsWeather);
-    }
-    const courseResponse = await handleCourseSelect(moreData)
     
-    
-    const timeResponse = await handleTimeSubmit(moreData)
-    
+    const courseResponse = await handleCourseSelect(someData);
+    console.log(courseResponse);
+   
+    const timeResponse = await handleTimeSubmit(someData);
+    console.log(timeResponse);
     
 } 
 
-// make http requests to find weather for location and time
-/*async function findWeather(query) {
-    const paramsCourse = {
-        q: query + ' golf',
-        format: 'json',
-        leisure: 'golf_course',
-        limit: 50
-    };
+async function findWeather(location, when) {
 
     const paramsWeather = {
         client_id: 'uMkXGJ4g2DJPLwihkeIr1',
         client_secret: 'S09d9zwEMNCOkIrptHixAvjwedBeZxKD5pRumKyG',
-        filter: '1hr'
+        filter: '1hr',
+        from: when,
+        to: '+6hr'
     };
-
-    let location = [];
-
-    const courseQueryString = formatQueryParams(paramsCourse);
-    const locationURL = placesURL + courseQueryString;
 
     const weatherQueryString = formatQueryParams(paramsWeather);
     const forecastURL = weatherURL + location[0] + ',' + location[1] + '?' + weatherQueryString;
 
-    console.log(locationURL);
+    const moreData = await goFetch(forecastURL);
+    // const moreData = await goFetch(forecastURL);
+    await displayWeather(moreData);
+}
 
-    fetch(locationURL)
-        .then(response => response.json())
-        // display all possible locations and let user choose one or none of the above
-        .then(responseJson => {
-            displayCourses(responseJson);
-            if (handleCourseSelect(responseJson)) {
-                location = location.push(lat).push(lon);
-                console.log(location);
-            }
-            if (handleTimeSubmit(responseJson)) {
-                paramsWeather.from = date + ' ' + time;
-                paramsWeather.to = "+6hr";
-                console.log(paramsWeather);
-            }
-        })
-        .then(() => )
-
-        // display one that is chosen or return to search if none of the above
-         .then()
-        .then()
-        .then(response => response.json()) 
-        .then(responseJson => console.log(responseJson))
-        // pass long and lat and time info to weather api from chosen location to retrieve weather info for that location
-        // display weather info to final results page
-} */
 
 // what to do with find the course button
 function watchForm() {
@@ -208,7 +174,7 @@ function watchForm() {
         
         const search = $('#js-search').val();
         
-        findWeather(search);
+        findCourse(search);
     });
 }
 
