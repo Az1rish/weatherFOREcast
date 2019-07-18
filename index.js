@@ -4,7 +4,7 @@ const placesURL = 'https://nominatim.openstreetmap.org/search?';
 
 const weatherURL = 'https://api.aerisapi.com/forecasts/';
 
-let location = [];
+let myLocation = [];
 
 // format query string
 function formatQueryParams(params) {
@@ -85,11 +85,11 @@ function handleCourseSelect() {
         let lat = chosen[0].dataset.lat; 
         console.log('Course selected');
 
-        location.push(lat,lon);
+        myLocation.push(lat,lon);
         
-        console.log(location);
+        console.log(myLocation);
     })
-    console.log(location)
+    console.log(myLocation)
     handleTimeSubmit();
 }
 
@@ -101,7 +101,7 @@ function handleTimeSubmit() {
         console.log("Time submitted");
     
         let when = date + " " + time;
-        console.log(location);
+        console.log(myLocation);
         console.log(when);
         findWeather(when);
 });
@@ -134,9 +134,9 @@ async function findCourse(query) {
   
 
     const courseQueryString = formatQueryParams(paramsCourse);
-    const locationURL = placesURL + courseQueryString;
+    const myLocationURL = placesURL + courseQueryString;
     
-    const someData = await goFetch(locationURL);
+    const someData = await goFetch(myLocationURL);
     // const moreData = await goFetch(forecastURL);
     await displayCourses(someData);
     
@@ -163,7 +163,7 @@ async function findWeather(when) {
     };
 
     const weatherQueryString = formatQueryParams(paramsWeather);
-    const forecastURL = weatherURL + `${location[0]}` + ',' + `${location[1]}` + '?' + weatherQueryString;
+    const forecastURL = weatherURL + `${myLocation[0]}` + ',' + `${myLocation[1]}` + '?' + weatherQueryString;
 
     console.log(forecastURL);
 
