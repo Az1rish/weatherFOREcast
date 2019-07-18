@@ -4,6 +4,8 @@ const placesURL = 'https://nominatim.openstreetmap.org/search?';
 
 const weatherURL = 'https://api.aerisapi.com/forecasts/';
 
+let location = [];
+
 // format query string
 function formatQueryParams(params) {
     const queryItems = Object.keys(params)
@@ -83,11 +85,11 @@ function handleCourseSelect() {
         let lat = chosen[0].dataset.lat; 
         console.log('Course selected');
 
-        let location = [];
         location.push(lat,lon);
         
         console.log(location);
     })
+    console.log(location)
     handleTimeSubmit(location);
 }
 
