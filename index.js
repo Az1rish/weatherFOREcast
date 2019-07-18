@@ -90,11 +90,11 @@ function handleCourseSelect() {
         console.log(location);
     })
     console.log(location)
-    handleTimeSubmit(location);
+    handleTimeSubmit();
 }
 
 // how to handle the enter tee time button
-function handleTimeSubmit(location) {
+function handleTimeSubmit() {
     $('#courses-list').on('click','.search-time',e => {
         const date = $("#js-date").val();
         const time = $("#js-time").val();
@@ -103,7 +103,7 @@ function handleTimeSubmit(location) {
         let when = date + " " + time;
         console.log(location);
         console.log(when);
-        findWeather(location, when);
+        findWeather(when);
 });
 }
 
@@ -152,7 +152,7 @@ function displayWeather(responseJson) {
     console.log(responseJson);
 }
 
-async function findWeather(location, when) {
+async function findWeather(when) {
 
     const paramsWeather = {
         client_id: 'uMkXGJ4g2DJPLwihkeIr1',
