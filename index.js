@@ -84,7 +84,7 @@ function handleCourseSelect() {
         console.log('Course selected');
 
         let location = [];
-        location = location.push(lat,lon);
+        location.push(lat,lon);
         
         console.log(location);
     })
@@ -146,6 +146,10 @@ async function findCourse(query) {
     
 } 
 
+function displayWeather(responseJson) {
+    console.log(responseJson);
+}
+
 async function findWeather(location, when) {
 
     const paramsWeather = {
@@ -157,7 +161,9 @@ async function findWeather(location, when) {
     };
 
     const weatherQueryString = formatQueryParams(paramsWeather);
-    const forecastURL = weatherURL + location[0] + ',' + location[1] + '?' + weatherQueryString;
+    const forecastURL = weatherURL + `${location[0]}` + ',' + `${location[1]}` + '?' + weatherQueryString;
+
+    console.log(forecastURL);
 
     const moreData = await goFetch(forecastURL);
     // const moreData = await goFetch(forecastURL);
