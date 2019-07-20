@@ -164,7 +164,7 @@ function displayWeather(responseJson) {
 
     for (let i = 0; i < responseJson.response[0].periods.length; i++) {
         $('#js-weather').append(
-            `<p>${responseJson.response[0].periods[i].validTime.substr(11,2)} o'clock</p>
+            `<p>${responseJson.response[0].periods[i].validTime.substr(11,5)}</p>
             <li class="${[i]}>
                 <p class="weather">${responseJson.response[0].periods[i].weather}</p>
                 <p class="temp">${responseJson.response[0].periods[i].tempF} degrees Fahrenheit</p>
