@@ -144,7 +144,18 @@ async function findCourse(query) {
 
 function displayWeather(responseJson) {
     console.log(responseJson);
-    $('#date-label','#js-date','#js-time','.search-time').addClass('hidden');
+    $('#date-label'/*,'#js-date','#js-time','.search-time'*/).addClass('hidden');
+    $('#js-date').addClass('hidden');
+    $('#js-time').addClass('hidden');
+    $('.search-time').addClass('hidden');
+
+    if (!responseJson.response[0]) {
+        console.log('No results for responseJson.response[0]');
+    }
+
+    if (!responseJson.response[0].periods) {
+        console.log('No results for responseJson.response[0].periods');
+    }
 
     for (let i = 0; i < responseJson.response[0].periods.length; i++) {
         $('#js-weather').append(
