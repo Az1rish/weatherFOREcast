@@ -146,12 +146,12 @@ function displayWeather(responseJson) {
     console.log(responseJson);
     $('#date-label','#js-date','#js-time','.search-time').addClass('hidden');
 
-    for (let i = 0; i < responseJson.response.periods.length; i++) {
+    for (let i = 0; i < responseJson.response[0].periods.length; i++) {
         $('#js-weather').append(
             `<li class="${[i]}>
-                <p class="weather">${responsJson.response.periods[i].weather}</p>
-                <p class="temp">${responsJson.response.periods[i].tempF} degrees Fahrenheit</p>
-                <p class="wind">Wind blowing ${responsJson.response.periods[i].windDir} at ${responsJson.response.periods[i].windSpeedMPH}mph with gusts of ${responsJson.response.periods[i].windGustMPH}mph</p>
+                <p class="weather">${responseJson.response[0].periods[i].weather}</p>
+                <p class="temp">${responseJson.response[0].periods[i].tempF} degrees Fahrenheit</p>
+                <p class="wind">Wind blowing ${responseJson.response[0].periods[i].windDir} at ${responseJson.response[0].periods[i].windSpeedMPH}mph with gusts of ${responseJson.response[0].periods[i].windGustMPH}mph</p>
             </li>`
         )
     }         
