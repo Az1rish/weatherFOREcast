@@ -144,10 +144,15 @@ async function findCourse(query) {
 
 function displayWeather(responseJson) {
     console.log(responseJson);
-    $('#date-label'/*,'#js-date','#js-time','.search-time'*/).addClass('hidden');
+    $('#date-label').addClass('hidden');
     $('#js-date').addClass('hidden');
     $('#js-time').addClass('hidden');
     $('.search-time').addClass('hidden');
+
+    $('#courses-list').append(
+        `<p>Your tee time is at ${$("#js-date").val()} ${$("#js-time").val()}</p>
+        <p>The weather forecast for your game is as follows:</p>`
+    )
 
     if (!responseJson.response[0]) {
         console.log('No results for responseJson.response[0]');
@@ -159,7 +164,8 @@ function displayWeather(responseJson) {
 
     for (let i = 0; i < responseJson.response[0].periods.length; i++) {
         $('#js-weather').append(
-            `<li class="${[i]}>
+            `<p>${responseJson.response[0].periods[i].validTime.substr(11,2)} o'clock</p>
+            <li class="${[i]}>
                 <p class="weather">${responseJson.response[0].periods[i].weather}</p>
                 <p class="temp">${responseJson.response[0].periods[i].tempF} degrees Fahrenheit</p>
                 <p class="wind">Wind blowing ${responseJson.response[0].periods[i].windDir} at ${responseJson.response[0].periods[i].windSpeedMPH}mph with gusts of ${responseJson.response[0].periods[i].windGustMPH}mph</p>
