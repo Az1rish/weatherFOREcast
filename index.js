@@ -52,6 +52,8 @@ function displayCourses(responseJson) {
     };
    
     $('#results-courses').removeClass('hidden');
+
+    handleCourseSelect();
 };
 
 // how to handle select button on search results page
@@ -84,7 +86,7 @@ function handleCourseSelect() {
         let lon = chosen[0].dataset.lon;
         let lat = chosen[0].dataset.lat; 
         console.log('Course selected');
-
+        myLocation = [];
         myLocation.push(lat,lon);
         
         console.log(myLocation);
@@ -104,7 +106,7 @@ function handleTimeSubmit() {
         console.log(myLocation);
         console.log(when);
         findWeather(when);
-});
+    });
 }
 
 function goFetch(uri, options) {
@@ -137,19 +139,22 @@ async function findCourse(query) {
     const myLocationURL = placesURL + courseQueryString;
     
     const someData = await goFetch(myLocationURL);
-    // const moreData = await goFetch(forecastURL);
     await displayCourses(someData);
-    
-    const courseResponse = await handleCourseSelect(someData);
-    console.log(courseResponse);
-   
-    const timeResponse = await handleTimeSubmit(someData);
-    console.log(timeResponse);
-    
 } 
 
 function displayWeather(responseJson) {
     console.log(responseJson);
+    $('#date-label','#js-date','#js-time','.search-time').addClass('hidden');
+
+    for (let i = 0; i < responseJson.response.periods.length; i++) {
+        $('#js-weather').append(
+            `<li class="${[i]}>
+                <p class="weather">${responsJson.response.periods[i].weather}</p>
+                <p class="temp">${responsJson.response.periods[i].tempF} degrees Fahrenheit</p>
+                <p class="wind">Wind blowing ${responsJson.response.periods[i].windDir} at ${responsJson.response.periods[i].windSpeedMPH}mph with gusts of ${responsJson.response.periods[i].windGustMPH}mph</p>
+            </li>`
+        )
+    }         
 }
 
 async function findWeather(when) {
@@ -159,7 +164,7 @@ async function findWeather(when) {
         client_secret: 'S09d9zwEMNCOkIrptHixAvjwedBeZxKD5pRumKyG',
         filter: '1hr',
         from: when,
-        to: '+6hr'
+        to: '+4hr'
     };
 
     const weatherQueryString = formatQueryParams(paramsWeather);
