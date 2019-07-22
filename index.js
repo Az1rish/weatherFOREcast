@@ -113,9 +113,10 @@ function handleTimeSubmit() {
         let when = date + " " + time;
         // console.log(myLocation);
         console.log(when);
-        if (when < Date.now()) {
+        let then = new Date(when);
+        if (then < Date.now()) {
             $('#courses-list').append(
-                `Sorry but that date and time has passed, please select another time in the future`
+                `<p class="past">Sorry but that date and time has passed, please select another time in the future</p>`
             );
         } else {
         findWeather(when);
@@ -162,6 +163,8 @@ function displayWeather(responseJson) {
     $('#js-date').addClass('hidden');
     $('#js-time').addClass('hidden');
     $('.search-time').addClass('hidden');
+
+    $('.past').remove();
 
     $('#courses-list').append(
         `<p>Your tee time is at ${$("#js-date").val()} ${$("#js-time").val()}</p>
