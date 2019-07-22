@@ -60,12 +60,12 @@ function displayCourses(responseJson) {
 function handleCourseSelect() {
     $('#courses-list').off().on('click','.select',e => {
         let chosen = $('input:checked');
-        console.log(chosen);
+        // console.log(chosen);
         
         let course = chosen.val();
         
         console.log(course);
-        console.log(chosen[0].dataset.lon);
+        // console.log(chosen[0].dataset.lon);
 
         if (course === 'none') {
             tryAgain();
@@ -78,8 +78,8 @@ function handleCourseSelect() {
         $('#courses-list').append(
             `<label for="date" id="date-label">
             At what date and time will you be playing?:</label>
-            <input type="date" name="date" id="js-date" required />
-            <input type="time" name="time" id="js-time" required />
+            <input type="date" name="date" id="js-date" required>
+            <input type="time" name="time" id="js-time" required>
             <input type="button" role="button" class="search-time" value="Enter tee time" />`
         );
         }
@@ -91,7 +91,7 @@ function handleCourseSelect() {
         
         console.log(myLocation);
     })
-    console.log(myLocation)
+    // console.log(myLocation)
     handleTimeSubmit();
 }
 
@@ -103,7 +103,7 @@ function handleTimeSubmit() {
         console.log("Time submitted");
     
         let when = date + " " + time;
-        console.log(myLocation);
+        // console.log(myLocation);
         console.log(when);
         findWeather(when);
     });
