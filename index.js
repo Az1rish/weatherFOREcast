@@ -67,6 +67,8 @@ function handleCourseSelect() {
         console.log(course);
         // console.log(chosen[0].dataset.lon);
 
+       
+
         if (course === 'none') {
             tryAgain();
         } else {
@@ -78,11 +80,15 @@ function handleCourseSelect() {
         $('#courses-list').append(
             `<label for="date" id="date-label">
             At what date and time will you be playing?:</label>
-            <input type="date" name="date" id="js-date" required>
-            <input type="time" name="time" id="js-time" required>
+            <input type="date" name="date" id="js-date" />
+            <input type="time" name="time" id="js-time" />
             <input type="button" role="button" class="search-time" value="Enter tee time" />`
-        );
+            
+        )
+        $("input").prop("required", true);
+        
         }
+
         let lon = chosen[0].dataset.lon;
         let lat = chosen[0].dataset.lat; 
         console.log('Course selected');
@@ -209,3 +215,4 @@ function watchForm() {
 }
 
 $(watchForm);
+
