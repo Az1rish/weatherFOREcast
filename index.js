@@ -31,7 +31,8 @@ function displayCourses(responseJson) {
        tryAgain();
    } else {
         $('#courses-list').append(
-            `<h2>Search Results</h2>`
+            `<h2>Search Results</h2>
+            <p>Please select the currect location</p>`
         );
    
    for (let i = 0; i < responseJson.length; i++) 
@@ -82,7 +83,7 @@ function handleCourseSelect() {
             At what date and time will you be playing?:</label>
             <input type="date" name="date" id="js-date" />
             <input type="time" name="time" id="js-time" />
-            <input type="button" role="button" class="search-time" value="Enter tee time" />`
+            <input type="submit" role="button" class="search-time" value="Enter tee time" />`
             
         )
         $("input").prop("required", true);
@@ -103,7 +104,8 @@ function handleCourseSelect() {
 
 // how to handle the enter tee time button
 function handleTimeSubmit() {
-    $('#courses-list').on('click','.search-time',e => {
+    $('#courses-list').on('submit', e => {
+        e.preventDefault();
         const date = $("#js-date").val();
         const time = $("#js-time").val();
         console.log("Time submitted");
@@ -111,7 +113,13 @@ function handleTimeSubmit() {
         let when = date + " " + time;
         // console.log(myLocation);
         console.log(when);
+        if (when < Date.now()) {
+            $('#courses-list').append(
+                `Sorry but that date and time has passed, please select another time in the future`
+            );
+        } else {
         findWeather(when);
+        };
     });
 }
 
@@ -205,7 +213,8 @@ async function findWeather(when) {
 function watchForm() {
     console.log("How's it looking outside?");
 
-    $('#js-form').on('click',".search", e => {
+    $('#js-form').on('submit', e => {
+        e.preventDefault();
         $('.explain').addClass('hidden');
         
         const search = $('#js-search').val();
