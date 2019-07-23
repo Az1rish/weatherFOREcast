@@ -114,13 +114,17 @@ function handleTimeSubmit() {
         // console.log(myLocation);
         console.log(when);
         let then = new Date(when);
-        let dateLimit = new Date (Date.now() + 1296e9);
+        let dateLimit = new Date (Date.now() + 1296000000);
         console.log(then);
         if (then < Date.now()) {
+            $('.past').remove();
+            $('.future').remove();
             $('#courses-list').append(
                 `<p class="past">Sorry but that date and time has passed, please select another time in the future</p>`
             );
         } else if (then > dateLimit) {
+            $('.past').remove();
+            $('.future').remove();
             $('#courses-list').append(
                 `<p class="future">Sorry but that date is too far in the future to get you an accurate forecast, please retry within 15 days before your tee time</p>`
             )
@@ -195,7 +199,17 @@ function displayWeather(responseJson) {
                 <p class="wind">Wind blowing ${responseJson.response[0].periods[i].windDir} at ${responseJson.response[0].periods[i].windSpeedMPH}mph with gusts of ${responseJson.response[0].periods[i].windGustMPH}mph</p>
             </li>`
         )
-    }         
+    }    
+    $('#js-weather').append(
+        `<button type="button" class="restart">Try another search</button>`
+    )  
+    searchAgain();  
+}
+
+function searchAgain() {
+    $('#js-weather').on('click','.restart', function (event) {
+        location.reload();
+    });
 }
 
 async function findWeather(when) {
