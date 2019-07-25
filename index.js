@@ -6,6 +6,19 @@ const weatherURL = 'https://api.aerisapi.com/forecasts/';
 
 let myLocation = [];
 
+// format dates
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
 // format query string
 function formatQueryParams(params) {
     const queryItems = Object.keys(params)
@@ -66,9 +79,10 @@ function handleCourseSelect() {
         let course = chosen.val();
         
         console.log(course);
-        // console.log(chosen[0].dataset.lon);
-
-       
+        
+       let now = formatDate(Date.now());
+       let dateLimit = formatDate(Date.now() + 1296000000);
+       console.log(now, dateLimit);
 
         if (course === 'none') {
             tryAgain();
@@ -81,9 +95,10 @@ function handleCourseSelect() {
         $('#courses-list').append(
             `<label for="date" id="date-label">
             At what date and time will you be playing?:</label>
-            <input type="date" name="date" id="js-date" />
-            <input type="time" name="time" id="js-time" />
-            <input type="submit" role="button" class="search-time" value="Enter tee time" />`
+            <input type="date" name="date" id="js-date" min="${now}" max="${dateLimit}" value="${now}" />
+            <input type="time" name="time" id="js-time" value="06:00" />
+            <input type="submit" role="button" class="search-time" value="Enter tee time" />
+            <p class="notice">Notice: If the date you are looking for is not available, that means it is out of the range needed to get an accurate forecast. Please retry within 15 days prior to your tee time. Thanks!`
             
         )
         $("input").prop("required", true);
@@ -113,7 +128,7 @@ function handleTimeSubmit() {
         let when = date + " " + time;
         // console.log(myLocation);
         console.log(when);
-        let then = new Date(when);
+        /*let then = new Date(when);
         let dateLimit = new Date (Date.now() + 1296000000);
         console.log(then);
         if (then < Date.now()) {
@@ -128,9 +143,9 @@ function handleTimeSubmit() {
             $('#courses-list').append(
                 `<p class="future">Sorry but that date is too far in the future to get you an accurate forecast, please retry within 15 days before your tee time</p>`
             )
-        } else {
+        } else {*/
         findWeather(when);
-        };
+        
     });
 }
 
@@ -169,16 +184,22 @@ async function findCourse(query) {
 
 function displayWeather(responseJson) {
     console.log(responseJson);
+
+    let teeTime = new Date(`${$("#js-date").val()}`+"T"+ `${$("#js-time").val()}`);
+    // teeTime = formatDate(teeTime);
+    console.log(teeTime);
+
     $('#date-label').addClass('hidden');
     $('#js-date').addClass('hidden');
     $('#js-time').addClass('hidden');
     $('.search-time').addClass('hidden');
+    $('.notice').addClass('hidden');
 
-    $('.past').remove();
-    $('.future').remove();
+    // $('.past').remove();
+    // $('.future').remove();
 
     $('#courses-list').append(
-        `<p>Your tee time is at ${$("#js-date").val()} ${$("#js-time").val()}</p>
+        `<p>Your tee time is at ${teeTime}</p>
         <p>The weather forecast for your game is as follows:</p>`
     )
 
