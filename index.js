@@ -240,7 +240,7 @@ async function findWeather(when) {
         client_secret: 'S09d9zwEMNCOkIrptHixAvjwedBeZxKD5pRumKyG',
         filter: '1hr',
         from: when,
-        to: '+4hr'
+        to: '+5hr'
     };
 
     const weatherQueryString = formatQueryParams(paramsWeather);
