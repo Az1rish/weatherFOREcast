@@ -262,7 +262,9 @@ async function findWeather(when) {
     };
 
     const weatherQueryString = formatQueryParams(paramsWeather);
+    alert(weatherQueryString);
     const forecastURL = weatherURL + `${myLocation[0]}` + ',' + `${myLocation[1]}` + '?' + weatherQueryString;
+    alert(forecastURL);
 
     console.log(forecastURL);
 
