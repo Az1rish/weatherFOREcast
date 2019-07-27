@@ -191,9 +191,16 @@ function displayWeather(responseJson) {
     let inputTime = `${$("#js-time").val()}`;
     inputDate = inputDate.split('-');
     inputTime = inputTime.split(':');
-    let inputArr = inputDate + ',' + inputTime;
+    console.log(inputDate,inputTime);
+    
+    let inputArr = inputDate;
+    for (let i=0; i < inputTime.length; i++) {
+       inputArr.push(inputTime[i]);
+    }
+    console.log(inputArr);
     let utcTime = new Date(Date.UTC(inputArr));
     console.log(utcTime);
+    
     
 
     $('#date-label').addClass('hidden');
