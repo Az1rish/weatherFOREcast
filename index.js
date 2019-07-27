@@ -213,7 +213,7 @@ function displayWeather(responseJson) {
     // $('.future').remove();
 
     $('#courses-list').append(
-        `<p>Your tee time is at ${teeTime}</p>
+        `<p>Your tee time is at ${utcTime}</p>
         <p>The weather forecast for your game is as follows:</p>`
     )
 
