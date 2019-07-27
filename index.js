@@ -198,7 +198,7 @@ function displayWeather(responseJson) {
        inputArr.push(inputTime[i]);
     }
     console.log(inputArr);
-    let utcTime = new Date(Date.UTC(inputArr));
+    let utcTime = new Date(Date.UTC(inputArr[0],(inputArr[1]-1),inputArr[2],inputArr[3],inputArr[4]));
     console.log(utcTime);
     
     
