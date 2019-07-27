@@ -186,7 +186,9 @@ function displayWeather(responseJson) {
     console.log(responseJson);
 
     let teeTime = new Date(`${$("#js-date").val()}`+"T"+ `${$("#js-time").val()}`);
-
+    alert(teeTime);
+alert(`${$("#js-date").val()}`);
+alert(`${$("#js-time").val()}`);
     let inputDate = `${$("#js-date").val()}`;
     let inputTime = `${$("#js-time").val()}`;
     inputDate = inputDate.split('-');
