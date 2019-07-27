@@ -186,8 +186,15 @@ function displayWeather(responseJson) {
     console.log(responseJson);
 
     let teeTime = new Date(`${$("#js-date").val()}`+"T"+ `${$("#js-time").val()}`);
-    // teeTime = formatDate(teeTime);
-    console.log(teeTime);
+
+    let inputDate = `${$("#js-date").val()}`;
+    let inputTime = `${$("#js-time").val()}`;
+    inputDate = inputDate.split('-');
+    inputTime = inputTime.split(':');
+    let inputArr = inputDate + ',' + inputTime;
+    let utcTime = new Date(Date.UTC(inputArr));
+    console.log(utcTime);
+    
 
     $('#date-label').addClass('hidden');
     $('#js-date').addClass('hidden');
