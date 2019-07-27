@@ -186,11 +186,12 @@ function displayWeather(responseJson) {
     console.log(responseJson);
 
     let teeTime = new Date(`${$("#js-date").val()}`+"T"+ `${$("#js-time").val()}`);
-    let teeTime2 = new Date();
-
+    
+    /*let teeTime2 = new Date()
     alert(teeTime2);
-alert(`${$("#js-date").val()}`);
-alert(`${$("#js-time").val()}`);
+    alert(`${$("#js-date").val()}`);
+    alert(`${$("#js-time").val()}`);*/
+    
     let inputDate = `${$("#js-date").val()}`;
     let inputTime = `${$("#js-time").val()}`;
     inputDate = inputDate.split('-');
@@ -217,7 +218,7 @@ alert(`${$("#js-time").val()}`);
     // $('.future').remove();
 
     $('#courses-list').append(
-        `<p>Your tee time is at ${utcTime}</p>
+        `<p>Your tee time is at ${teeTime}</p>
         <p>The weather forecast for your game is as follows:</p>`
     )
 
