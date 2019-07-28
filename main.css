@@ -10,3 +10,15 @@
 label {
     display: block;
 }
+
+.left {
+    text-align: left;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+ul {
+    list-style: none;
+}

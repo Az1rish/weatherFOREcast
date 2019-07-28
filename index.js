@@ -6,6 +6,8 @@ const weatherURL = 'https://api.aerisapi.com/forecasts/';
 
 let myLocation = [];
 
+let course;
+
 // format dates
 function formatDate(date) {
     var d = new Date(date),
@@ -30,7 +32,7 @@ function formatQueryParams(params) {
 function tryAgain() {
     $('#courses-list').empty();
     $('#courses-list').append(
-        `<h3>Sorry we couldn't find a course from that search, please try again (maybe add more search values)</h3>`
+        `<h3 class="text-center">Sorry we couldn't find a course from that search, please try again (maybe add more search values)</h3>`
     );
     $('#js-form').removeClass('hidden');
 }
@@ -39,13 +41,14 @@ function tryAgain() {
 function displayCourses(responseJson) {
    console.log(responseJson);
    $('#courses-list').empty();
+   $('#courses-list').addClass('left');
 
    if (responseJson.length === 0) {
        tryAgain();
    } else {
         $('#courses-list').append(
-            `<h2>Search Results</h2>
-            <p>Please select the currect location</p>`
+            `<h2 class="text-center">Search Results</h2>
+            <p class="text-center">Please select the correct location</p>`
         );
    
    for (let i = 0; i < responseJson.length; i++) 
@@ -59,8 +62,9 @@ function displayCourses(responseJson) {
         `<label for="none"><input type="radio" id="none" name="course" value="none" checked>
         None of the above</label>`
     );
+    
     $('#courses-list').append(
-        `<input type="button" value="Select" class="select">`
+        `<input type="button" value="Select" class="select btn btn-block btn-success">`
     );
     $('#js-form').addClass('hidden');
     };
@@ -74,7 +78,7 @@ function displayCourses(responseJson) {
 function handleCourseSelect() {
     $('#courses-list').off().on('click','.select',e => {
         let chosen = $('input:checked');
-        let course = chosen.val();
+        course = chosen.val();
         console.log(course);
         
         let now = formatDate(Date.now());
@@ -85,6 +89,7 @@ function handleCourseSelect() {
             tryAgain();
         } else {
         $('#courses-list').empty();
+        $('#courses-list').removeClass('left');
         $('#courses-list').append(
             `<h3>${course}</h3>`
         )
@@ -94,7 +99,7 @@ function handleCourseSelect() {
             At what date and time will you be playing?:</label>
             <input type="date" name="date" id="js-date" min="${now}" max="${dateLimit}" value="${now}" />
             <input type="time" name="time" id="js-time" value="06:00" />
-            <input type="submit" role="button" class="search-time" value="Enter tee time" />
+            <input type="submit" role="button" class="search-time btn btn-block btn-success" value="Enter tee time" />
             <p class="notice">Notice: If the date you are looking for is not available, that means it is out of the range needed to get an accurate forecast. Please retry within 15 days prior to your tee time. Thanks!`
             
         )
@@ -177,14 +182,10 @@ function displayWeather(responseJson) {
     let teeTime = new Date(inputArr[0],(inputArr[1]-1),inputArr[2],inputArr[3],inputArr[4]);
     console.log(teeTime);
 
-    $('#date-label').addClass('hidden');
-    $('#js-date').addClass('hidden');
-    $('#js-time').addClass('hidden');
-    $('.search-time').addClass('hidden');
-    $('.notice').addClass('hidden');
+    $('#courses-list').empty();
 
     $('#courses-list').append(
-        `<p>Your tee time is at ${teeTime}</p>
+        `<p>Your tee time is at ${teeTime} at ${course}</p>
         <p>The weather forecast for your game is as follows:</p>`
     )
 
@@ -198,7 +199,7 @@ function displayWeather(responseJson) {
 
     for (let i = 0; i < responseJson.response[0].periods.length; i++) {
         $('#js-weather').append(
-            `<p>${responseJson.response[0].periods[i].validTime.substr(11,5)}</p>
+            `<p class="bold">${responseJson.response[0].periods[i].validTime.substr(11,5)}</p>
             <li class="${[i]}>
                 <p class="weather">${responseJson.response[0].periods[i].weather}</p>
                 <p class="temp">${responseJson.response[0].periods[i].tempF} degrees Fahrenheit</p>
@@ -207,7 +208,7 @@ function displayWeather(responseJson) {
         )
     }    
     $('#js-weather').append(
-        `<button type="button" class="restart">Try another search</button>`
+        `<button type="button" class="restart btn btn-block btn-success">Try another search</button>`
     )  
     searchAgain();  
 }
