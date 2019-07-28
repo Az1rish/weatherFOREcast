@@ -185,7 +185,7 @@ async function findCourse(query) {
 function displayWeather(responseJson) {
     console.log(responseJson);
 
-    let teeTime = new Date(`${$("#js-date").val()}`+"T"+ `${$("#js-time").val()}`);
+    // let teeTime = new Date(`${$("#js-date").val()}`+"T"+ `${$("#js-time").val()}`);
     
     /*let teeTime2 = new Date()
     alert(teeTime2);
@@ -203,8 +203,8 @@ function displayWeather(responseJson) {
        inputArr.push(inputTime[i]);
     }
     console.log(inputArr);
-    let utcTime = new Date(Date.UTC(inputArr[0],(inputArr[1]-1),inputArr[2],inputArr[3],inputArr[4]));
-    console.log(utcTime);
+    let teeTime = new Date(inputArr[0],(inputArr[1]-1),inputArr[2],inputArr[3],inputArr[4]);
+    console.log(teeTime);
     
     
 
@@ -263,9 +263,9 @@ async function findWeather(when) {
     };
 
     const weatherQueryString = formatQueryParams(paramsWeather);
-    alert(weatherQueryString);
+    // alert(weatherQueryString);
     const forecastURL = weatherURL + `${myLocation[0]}` + ',' + `${myLocation[1]}` + '?' + weatherQueryString;
-    alert(forecastURL);
+    // alert(forecastURL);
 
     console.log(forecastURL);
 
