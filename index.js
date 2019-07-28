@@ -51,13 +51,16 @@ function displayCourses(responseJson) {
             <p class="text-center">Please select the correct location</p>`
         );
    
-   for (let i = 0; i < responseJson.length; i++) 
-        if (responseJson[i].type === "golf_course") {
+   for (let i = 0; i < responseJson.length; i++) {
+       if (responseJson[i].type.golf_course === 0){
+           tryAgain();
+       } else if (responseJson[i].type === "golf_course") {
            $('#courses-list').append(
             `<label for="course${i}"><input type="radio" id="course${i}" name="course" value="${responseJson[i].display_name}" data-lon="${responseJson[i].lon}" data-lat="${responseJson[i].lat}">
             ${responseJson[i].display_name}</label>`
        );
     };
+}
     $('#courses-list').append(
         `<label for="none"><input type="radio" id="none" name="course" value="none" checked>
         None of the above</label>`
