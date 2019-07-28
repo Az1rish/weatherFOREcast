@@ -74,15 +74,12 @@ function displayCourses(responseJson) {
 function handleCourseSelect() {
     $('#courses-list').off().on('click','.select',e => {
         let chosen = $('input:checked');
-        // console.log(chosen);
-        
         let course = chosen.val();
-        
         console.log(course);
         
-       let now = formatDate(Date.now());
-       let dateLimit = formatDate(Date.now() + 1296000000);
-       console.log(now, dateLimit);
+        let now = formatDate(Date.now());
+        let dateLimit = formatDate(Date.now() + 1296000000);
+        console.log(now, dateLimit);
 
         if (course === 'none') {
             tryAgain();
@@ -113,7 +110,6 @@ function handleCourseSelect() {
         
         console.log(myLocation);
     })
-    // console.log(myLocation)
     handleTimeSubmit();
 }
 
@@ -126,26 +122,8 @@ function handleTimeSubmit() {
         console.log("Time submitted");
     
         let when = date + " " + time;
-        // console.log(myLocation);
         console.log(when);
-        /*let then = new Date(when);
-        let dateLimit = new Date (Date.now() + 1296000000);
-        console.log(then);
-        if (then < Date.now()) {
-            $('.past').remove();
-            $('.future').remove();
-            $('#courses-list').append(
-                `<p class="past">Sorry but that date and time has passed, please select another time in the future</p>`
-            );
-        } else if (then > dateLimit) {
-            $('.past').remove();
-            $('.future').remove();
-            $('#courses-list').append(
-                `<p class="future">Sorry but that date is too far in the future to get you an accurate forecast, please retry within 15 days before your tee time</p>`
-            )
-        } else {*/
         findWeather(when);
-        
     });
 }
 
@@ -184,13 +162,6 @@ async function findCourse(query) {
 
 function displayWeather(responseJson) {
     console.log(responseJson);
-
-    // let teeTime = new Date(`${$("#js-date").val()}`+"T"+ `${$("#js-time").val()}`);
-    
-    /*let teeTime2 = new Date()
-    alert(teeTime2);
-    alert(`${$("#js-date").val()}`);
-    alert(`${$("#js-time").val()}`);*/
     
     let inputDate = `${$("#js-date").val()}`;
     let inputTime = `${$("#js-time").val()}`;
@@ -205,17 +176,12 @@ function displayWeather(responseJson) {
     console.log(inputArr);
     let teeTime = new Date(inputArr[0],(inputArr[1]-1),inputArr[2],inputArr[3],inputArr[4]);
     console.log(teeTime);
-    
-    
 
     $('#date-label').addClass('hidden');
     $('#js-date').addClass('hidden');
     $('#js-time').addClass('hidden');
     $('.search-time').addClass('hidden');
     $('.notice').addClass('hidden');
-
-    // $('.past').remove();
-    // $('.future').remove();
 
     $('#courses-list').append(
         `<p>Your tee time is at ${teeTime}</p>
@@ -263,14 +229,11 @@ async function findWeather(when) {
     };
 
     const weatherQueryString = formatQueryParams(paramsWeather);
-    // alert(weatherQueryString);
     const forecastURL = weatherURL + `${myLocation[0]}` + ',' + `${myLocation[1]}` + '?' + weatherQueryString;
-    // alert(forecastURL);
 
     console.log(forecastURL);
 
     const moreData = await goFetch(forecastURL);
-    // const moreData = await goFetch(forecastURL);
     await displayWeather(moreData);
 }
 
