@@ -80,6 +80,8 @@ function handleCourseSelect() {
         let chosen = $('input:checked');
         course = chosen.val();
         console.log(course);
+        course = course.substr(0, course.indexOf(','));
+        console.log(course);
         
         let now = formatDate(Date.now());
         let dateLimit = formatDate(Date.now() + 1296000000);
