@@ -52,15 +52,14 @@ function displayCourses(responseJson) {
         );
    
    for (let i = 0; i < responseJson.length; i++) {
-       if (responseJson[i].type.golf_course === 0){
-           tryAgain();
-       } else if (responseJson[i].type === "golf_course") {
+    if (responseJson[i].type === "golf_course") {
            $('#courses-list').append(
             `<label for="course${i}"><input type="radio" id="course${i}" name="course" value="${responseJson[i].display_name}" data-lon="${responseJson[i].lon}" data-lat="${responseJson[i].lat}">
             ${responseJson[i].display_name}</label>`
        );
     };
 }
+
     $('#courses-list').append(
         `<label for="none"><input type="radio" id="none" name="course" value="none" checked>
         None of the above</label>`
@@ -74,6 +73,11 @@ function displayCourses(responseJson) {
    
     $('#results-courses').removeClass('hidden');
 
+    if (Object.values(responseJson).every(object => object.type !== "golf_course")){
+        tryAgain();
+    }
+
+   
     handleCourseSelect();
 };
 
@@ -83,8 +87,6 @@ function handleCourseSelect() {
         let chosen = $('input:checked');
         course = chosen.val();
         console.log(course);
-        course = course.substr(0, course.indexOf(','));
-        console.log(course);
         
         let now = formatDate(Date.now());
         let dateLimit = formatDate(Date.now() + 1296000000);
@@ -93,23 +95,24 @@ function handleCourseSelect() {
         if (course === 'none') {
             tryAgain();
         } else {
-        $('#courses-list').empty();
-        $('#courses-list').removeClass('left');
-        $('#courses-list').append(
-            `<h3>${course}</h3>`
-        )
+            course = course.substr(0, course.indexOf(','));
+            console.log(course);
+            $('#courses-list').empty();
+            $('#courses-list').removeClass('left');
+            $('#courses-list').append(
+                `<h3>${course}</h3>`
+            )
         
-        $('#courses-list').append(
-            `<label for="date" id="date-label">
-            At what date and time will you be playing?:</label>
-            <input type="date" name="date" id="js-date" min="${now}" max="${dateLimit}" value="${now}" />
-            <input type="time" name="time" id="js-time" value="06:00" />
-            <input type="submit" role="button" class="search-time btn btn-block btn-success" value="Enter tee time" />
-            <p class="notice">Notice: If the date you are looking for is not available, that means it is out of the range needed to get an accurate forecast. Please retry within 15 days prior to your tee time. Thanks!`
-            
-        )
-        $("input").prop("required", true);
-        
+            $('#courses-list').append(
+                `<label for="date" id="date-label">
+                At what date and time will you be playing?:</label>
+                <input type="date" name="date" id="js-date" min="${now}" max="${dateLimit}" value="${now}" />
+                <input type="time" name="time" id="js-time" value="06:00" />
+                <input type="submit" role="button" class="search-time btn btn-block btn-success" value="Enter tee time" />
+                <p class="notice">Notice: If the date you are looking for is not available, that means it is out of the range needed to get an accurate forecast. Please retry within 15 days prior to your tee time. Thanks!`
+            )
+
+            $("input").prop("required", true);
         }
 
         let lon = chosen[0].dataset.lon;
@@ -187,10 +190,13 @@ function displayWeather(responseJson) {
     let teeTime = new Date(inputArr[0],(inputArr[1]-1),inputArr[2],inputArr[3],inputArr[4]);
     console.log(teeTime);
 
+    let begin = teeTime.toString();
+    begin = begin.substr(0, begin.indexOf('G'));
+    
     $('#courses-list').empty();
 
     $('#courses-list').append(
-        `<p>Your tee time is at ${teeTime} at ${course}</p>
+        `<p>Your tee time is at ${begin} at ${course}</p>
         <p>The weather forecast for your game is as follows:</p>`
     )
 
