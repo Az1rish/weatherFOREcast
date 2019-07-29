@@ -77,7 +77,6 @@ function displayCourses(responseJson) {
         tryAgain();
     }
 
-   
     handleCourseSelect();
 };
 
@@ -140,6 +139,7 @@ function handleTimeSubmit() {
     });
 }
 
+// reusable fetch function
 function goFetch(uri, options) {
     return fetch(uri, options)
       .then(response => {
@@ -156,6 +156,7 @@ function goFetch(uri, options) {
       });
 };
 
+// make first http request to nominatim.org api
 async function findCourse(query) {
     
     const paramsCourse = {
@@ -173,6 +174,7 @@ async function findCourse(query) {
     await displayCourses(someData);
 } 
 
+// display results from aerisweather.com api response
 function displayWeather(responseJson) {
     console.log(responseJson);
     
@@ -224,12 +226,14 @@ function displayWeather(responseJson) {
     searchAgain();  
 }
 
+// function to try another search
 function searchAgain() {
     $('#js-weather').on('click','.restart', function (event) {
         location.reload();
     });
 }
 
+// make http request to aerisweather.com api
 async function findWeather(when) {
 
     const paramsWeather = {
