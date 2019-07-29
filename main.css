@@ -45,7 +45,7 @@ ul {
 .box {
     background-color: white;
     border-radius: 20px;
-    margin: 10%;
+    margin: 10% auto;
     width: 70%;
     padding: 20px;
     opacity: 0.87;
