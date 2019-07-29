@@ -10,25 +10,27 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container-fluid text-center">
-        <h1>The Weather FORE!-cast</h1>
-        <p class="explain">What will the weather be during your next round of golf?</p>
+    <div class="container-fluid text-center page">
+        <section role="main" class="box">
+            <h1>The Weather FORE!-cast</h1>
+            <p class="explain">What will the weather be during your next round of golf?</p>
 
-        <section id="results-courses" class="hidden">        
-            <form id="courses-list"></form>
-            <ul id="js-weather"></ul>
-        </section>
+            <section id="results-courses" class="hidden">        
+                <form id="courses-list"></form>
+                <ul id="js-weather"></ul>
+            </section>
 
-        <form id="js-form">
-            <label for="search">
+            <form id="js-form">
+                <label for="search">
                 What course will you be playing?:
-            </label>
-            <input type="text" name="search" id="js-search" placeholder="Search Golf Courses" required />
+                </label>
+                <input type="text" name="search" id="js-search" placeholder="Search Golf Courses" required />
 
-            <input type="submit" role="button" class="search btn btn-success btn-block" value="Find the course">
-        </form>
+                <input type="submit" role="button" class="search btn btn-success btn-block" value="Find the course">
+            </form>
 
-        <p id="js-error-message" class="error-message"></p>
+            <p id="js-error-message" class="error-message"></p>
+        </section>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

@@ -2,6 +2,12 @@
     margin: 0;
     box-sizing: border-box;
 }
+body {
+    background: url(golf-course.jpg) no-repeat center center fixed;
+    background-size: cover;
+    /* overflow: hidden; */
+    height: 100%;
+}
 
 .hidden {
     display: none;
@@ -21,4 +27,17 @@ label {
 
 ul {
     list-style: none;
+    padding: 0;
+}
+
+.box {
+    background-color: white;
+    border-radius: 20px;
+    margin: 10%;
+    width: 70%;
+    padding: 20px;
+}
+
+input {
+    margin: 5px !important;
 }
