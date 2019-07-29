@@ -196,7 +196,7 @@ function displayWeather(responseJson) {
     $('#courses-list').empty();
 
     $('#courses-list').append(
-        `<p>Your tee time is at ${begin} at ${course}</p>
+        `<p>Your tee time is on ${begin} at ${course}</p>
         <p>The weather forecast for your game is as follows:</p>`
     )
 
