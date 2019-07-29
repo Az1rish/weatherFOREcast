@@ -32,7 +32,7 @@ function formatQueryParams(params) {
 function tryAgain() {
     $('#courses-list').empty();
     $('#courses-list').append(
-        `<h3 class="text-center">Sorry we couldn't find a course from that search, please try again (maybe add more search values)</h3>`
+        `<h3 class="text-center red">Sorry we couldn't find a course from that search, please try again (maybe add more search values)</h3>`
     );
     $('#js-form').removeClass('hidden');
 }
@@ -61,7 +61,7 @@ function displayCourses(responseJson) {
 }
 
     $('#courses-list').append(
-        `<label for="none"><input type="radio" id="none" name="course" value="none" checked>
+        `<label for="none" class="block"><input type="radio" id="none" name="course" value="none" checked>
         None of the above</label>`
     );
     

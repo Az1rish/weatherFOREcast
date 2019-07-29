@@ -5,8 +5,20 @@
 body {
     background: url(golf-course.jpg) no-repeat center center fixed;
     background-size: cover;
-    /* overflow: hidden; */
     height: 100%;
+    font-size: small !important;
+}
+
+h1, h2 {
+    font-size: large !important;
+}
+
+h3 {
+    font-size: medium !important;
+}
+
+.red {
+    color: red;
 }
 
 .hidden {
@@ -40,4 +52,21 @@ ul {
 
 input {
     margin: 5px !important;
+}
+
+.block {
+    display: block;
+}
+
+@media screen and (min-width: 1000px) {
+    body {
+        font-size: 1rem !important;
+    }
+
+    h2, h3 {
+        font-size: 1.5rem !important;
+    }
+    h1 {
+        font-size: 2rem !important;
+    }
 }
