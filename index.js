@@ -52,7 +52,7 @@ function displayCourses(responseJson) {
         );
    
    for (let i = 0; i < responseJson.length; i++) {
-    if (responseJson[i].type === "golf_course") {
+    if (responseJson[i].type === "golf_course"||responseJson[i].type ==="park") {
            $('#courses-list').append(
             `<label for="course${i}"><input type="radio" id="course${i}" name="course" value="${responseJson[i].display_name}" data-lon="${responseJson[i].lon}" data-lat="${responseJson[i].lat}">
             ${responseJson[i].display_name}</label>`
@@ -73,7 +73,8 @@ function displayCourses(responseJson) {
    
     $('#results-courses').removeClass('hidden');
 
-    if (Object.values(responseJson).every(object => object.type !== "golf_course")){
+    if (Object.values(responseJson).every(object => (object.type !== "golf_course"&&object.type !=="park"))){
+        console.log("Unfortunately this response didn't include a golf course. Check the 'type' key in the responseJson objects.");
         tryAgain();
     }
 
