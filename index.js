@@ -39,7 +39,6 @@ function tryAgain() {
 
 // what to do with json from places api request to display search results page
 function displayCourses(responseJson) {
-   console.log(responseJson);
    $('#courses-list').empty();
    $('#courses-list').addClass('left');
 
@@ -79,17 +78,15 @@ function handleCourseSelect() {
     $('#courses-list').off().on('click','.select',e => {
         let chosen = $('input:checked');
         course = chosen.val();
-        console.log(course);
         
         let now = formatDate(Date.now());
         let dateLimit = formatDate(Date.now() + 1296000000);
-        console.log(now, dateLimit);
 
         if (course === 'none') {
             tryAgain();
         } else {
             course = course.substr(0, course.indexOf(','));
-            console.log(course);
+            
             $('#courses-list').empty();
             $('#courses-list').removeClass('left');
             $('#courses-list').append(
@@ -98,11 +95,11 @@ function handleCourseSelect() {
         
             $('#courses-list').append(
                 `<label for="date" id="date-label">
-                At what date and time will you be playing?:</label>
+                <p>At what date and time will you be playing?:</p>
+                Notice: If the date you are looking for is not available, that means it is out of the range needed to get an accurate forecast. Please retry within 15 days prior to your tee time. Thanks!</label>
                 <input type="date" name="date" id="js-date" min="${now}" max="${dateLimit}" value="${now}" />
                 <input type="time" name="time" id="js-time" value="06:00" />
-                <input type="submit" role="button" class="search-time btn btn-block btn-success" value="Enter tee time" />
-                <p class="notice">Notice: If the date you are looking for is not available, that means it is out of the range needed to get an accurate forecast. Please retry within 15 days prior to your tee time. Thanks!`
+                <input type="submit" role="button" class="search-time btn btn-block btn-success" value="Enter tee time" />`
             )
 
             $("input").prop("required", true);
@@ -110,11 +107,9 @@ function handleCourseSelect() {
 
         let lon = chosen[0].dataset.lon;
         let lat = chosen[0].dataset.lat; 
-        console.log('Course selected');
+       
         myLocation = [];
         myLocation.push(lat,lon);
-        
-        console.log(myLocation);
     })
     handleTimeSubmit();
 }
@@ -125,10 +120,9 @@ function handleTimeSubmit() {
         e.preventDefault();
         const date = $("#js-date").val();
         const time = $("#js-time").val();
-        console.log("Time submitted");
     
-        let when = date + " " + time;
-        console.log(when);
+        const when = date + " " + time;
+    
         findWeather(when);
     });
 }
@@ -142,11 +136,13 @@ function goFetch(uri, options) {
               err.res = response;
               throw err;
           } else {
+            $('#js-error-message').addClass('hidden');
               return response.json();
           }
       })
       .catch(err => {
-          return err;
+          $('#js-error-message').removeClass('hidden');
+          $('#js-error-message').text(`Something is wrong with the connection: ${err.message}`);
       });
 };
 
@@ -172,21 +168,16 @@ async function findCourse(query) {
 
 // display results from aerisweather.com api response
 function displayWeather(responseJson) {
-    console.log(responseJson);
-    
     let inputDate = `${$("#js-date").val()}`;
     let inputTime = `${$("#js-time").val()}`;
     inputDate = inputDate.split('-');
     inputTime = inputTime.split(':');
-    console.log(inputDate,inputTime);
     
     let inputArr = inputDate;
     for (let i=0; i < inputTime.length; i++) {
        inputArr.push(inputTime[i]);
     }
-    console.log(inputArr);
     let teeTime = new Date(inputArr[0],(inputArr[1]-1),inputArr[2],inputArr[3],inputArr[4]);
-    console.log(teeTime);
 
     let begin = teeTime.toString();
     begin = begin.substr(0, begin.indexOf('G'));
@@ -243,8 +234,6 @@ async function findWeather(when) {
     const weatherQueryString = formatQueryParams(paramsWeather);
     const forecastURL = weatherURL + `${myLocation[0]}` + ',' + `${myLocation[1]}` + '?' + weatherQueryString;
 
-    console.log(forecastURL);
-
     const moreData = await goFetch(forecastURL);
     await displayWeather(moreData);
 }
@@ -252,8 +241,6 @@ async function findWeather(when) {
 
 // what to do with find the course button
 function watchForm() {
-    console.log("How's it looking outside?");
-
     $('#js-form').on('submit', e => {
         e.preventDefault();
         $('.explain').addClass('hidden');
