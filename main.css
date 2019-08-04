@@ -53,6 +53,9 @@ ul {
 
 input {
     margin: 5px !important;
+    border: 1px solid darkgray;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .block {
